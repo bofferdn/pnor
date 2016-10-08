@@ -260,6 +260,14 @@ Layout Description
         <reprovision/>
     </section>
     <section>
+        <description>SecureBoot Key Transition Partition (12K)</description>
+        <eyeCatch>SBKT</eyeCatch>
+        <physicalOffset>0x1ECE000</physicalOffset>
+        <physicalRegionSize>0x4000</physicalRegionSize>
+        <side>A</side>
+        <ecc/>
+    </section>
+    <section>
         <description>Hostboot Base (576K)</description>
         <eyeCatch>HBB</eyeCatch>
         <physicalOffset>0x1F67000</physicalOffset>
