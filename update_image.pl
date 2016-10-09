@@ -157,6 +157,8 @@ sub processConvergedSections {
     $sections{WINK}{out} = "$scratch_dir/$wink_binary_filename";
     $sections{HBRT}{in}  = "$hb_image_dir/img/hostboot_runtime.bin";
     $sections{HBRT}{out} = "$scratch_dir/hostboot_runtime.header.bin.ecc";
+    $sections{OCC}{in}   = "$occ_binary_filename";
+    $sections{OCC}{out}  = "$occ_binary_filename.ecc";
 
     # Build up the system bin files specification
     my $system_bin_files;
@@ -341,9 +343,13 @@ run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $scratch_dir/a
 run_command("dd if=/dev/zero bs=28K count=1 | tr \"\\000\" \"\\377\" > $scratch_dir/hostboot.temp.bin");
 run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $scratch_dir/attr_perm.bin.ecc --p8");
 
-#Create blank binary file for OCC Partition
-run_command("dd if=$occ_binary_filename of=$scratch_dir/hostboot.temp.bin ibs=1M conv=sync");
-run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $occ_binary_filename.ecc --p8");
+if ($release eq "p8") {
+
+} else {
+    #Create blank binary file for OCC Partition
+    run_command("dd if=$occ_binary_filename of=$scratch_dir/hostboot.temp.bin ibs=1M conv=sync");
+    run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $occ_binary_filename.ecc --p8");
+}
 
 #Encode Ecc into CAPP Partition
 run_command("dd if=$capp_binary_filename bs=144K count=1 > $scratch_dir/hostboot.temp.bin");
