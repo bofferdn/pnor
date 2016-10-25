@@ -21,6 +21,8 @@ my $ima_catalog_filename = "";
 my $openpower_version_filename = "";
 my $payload = "";
 my $payload_filename = "";
+my $bootkernel_filename = "";
+my $binary_dir = "";
 my $xz_compression = 0;
 my $secureboot = 0;
 my $key_transition = 0;
@@ -99,6 +101,14 @@ while (@ARGV > 0){
         $payload_filename = $ARGV[1] or die "Bad command line arg given: expecting a filepath to payload binary file.\n";
         shift;
     }
+    elsif (/^-binary_dir/i){
+        $binary_dir = $ARGV[1] or die "Bad command line arg given: expecting binary dir.\n";
+        shift;
+    }
+    elsif (/^-bootkernel_filename/i){
+        $bootkernel_filename = $ARGV[1] or die "Bad command line arg given: expecting a filepath to boot kernel binary file.\n";
+        shift;
+    }
     elsif (/^-xz_compression/i){
         $xz_compression = 1;
     }
@@ -159,6 +169,10 @@ sub processConvergedSections {
     $sections{HBRT}{out} = "$scratch_dir/hostboot_runtime.header.bin.ecc";
     $sections{OCC}{in}   = "$occ_binary_filename";
     $sections{OCC}{out}  = "$occ_binary_filename.ecc";
+    $sections{BOOTKERNEL}{in}  = "$binary_dir/$bootkernel_filename";
+    $sections{BOOTKERNEL}{out} = "$scratch_dir/$bootkernel_filename";
+    $sections{CAPP}{in}        = "$capp_binary_filename";
+    $sections{CAPP}{out}       = "$scratch_dir/cappucode.bin.ecc";
 
     # Build up the system bin files specification
     my $system_bin_files;
@@ -351,9 +365,13 @@ if ($release eq "p8") {
     run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $occ_binary_filename.ecc --p8");
 }
 
-#Encode Ecc into CAPP Partition
-run_command("dd if=$capp_binary_filename bs=144K count=1 > $scratch_dir/hostboot.temp.bin");
-run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $scratch_dir/cappucode.bin.ecc --p8");
+if ($release eq "p8") {
+
+} else {
+    #Encode Ecc into CAPP Partition
+    run_command("dd if=$capp_binary_filename bs=144K count=1 > $scratch_dir/hostboot.temp.bin");
+    run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $scratch_dir/cappucode.bin.ecc --p8");
+}
 
 #Create blank binary file for FIRDATA Partition
 run_command("dd if=/dev/zero bs=8K count=1 | tr \"\\000\" \"\\377\" > $scratch_dir/hostboot.temp.bin");
@@ -374,6 +392,7 @@ if ($release eq "p8") {
     run_command("cp $hb_binary_dir/$sbec_binary_filename $scratch_dir/");
     run_command("cp $hb_binary_dir/$sbe_binary_filename $scratch_dir/");
     run_command("cp $hb_binary_dir/$wink_binary_filename $scratch_dir/");
+    run_command("cp $binary_dir/$bootkernel_filename $scratch_dir/");
 }
 
 run_command("cp $hb_binary_dir/$ima_catalog_filename $scratch_dir/");
