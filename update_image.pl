@@ -25,8 +25,10 @@ my $bootkernel_filename = "";
 my $binary_dir = "";
 my $xz_compression = 0;
 my $secureboot = 0;
-my $key_transition = 0;
+my $key_transition = "";
 my $pnor_layout = "";
+my $sb_signing_config_file = "";
+my $sign_mode = "";
 my $debug = 0;
 
 while (@ARGV > 0){
@@ -115,11 +117,20 @@ while (@ARGV > 0){
     elsif (/^-secureboot/i){
         $secureboot = 1;
     }
-    elsif (/^-key_transition/i){
-        $key_transition = 1;
-    }
     elsif (/^-pnor_layout/i){
         $pnor_layout = $ARGV[1] or die "Bad command line arg given: expecting a filepath to PNOR layout file.\n";
+        shift;
+    }
+    elsif (/^-sb_signing_config_file/i){
+        $sb_signing_config_file = $ARGV[1] or die "Bad command line arg given: expecting a filepath for the sb signing config file.\n";
+        shift;
+    }
+    elsif (/^-key_transition/i){
+        $key_transition = $ARGV[1] or die "Bad command line arg given: expecting string imprint or production.\n";
+        shift;
+    }
+    elsif (/^-sign_mode/i){
+        $sign_mode = $ARGV[1] or die "Bad command line arg given: expecting string development or production.\n";
         shift;
     }
     else {
@@ -234,7 +245,9 @@ sub processConvergedSections {
         # Determine whether to securely sign the images
         my $securebootArg = $secureboot ? "--secureboot" : "";
         # Determine whether a key transition should take place
-        my $keyTransitionArg = $key_transition ? "--key-transition" : "";
+        my $keyTransitionArg = $key_transition ne "" ? "--key-transition $key_transition" : "";
+        # Determine whether a key transition should take place
+        my $signModeArg = $sign_mode ne "" ? "--sign-mode $sign_mode" : "";
 
         # Process each image
         my $cmd =   "cd $scratch_dir && "
@@ -242,7 +255,8 @@ sub processConvergedSections {
                       . "--binDir $scratch_dir "
                       . "--systemBinFiles $system_bin_files "
                       . "--pnorLayout $pnor_layout "
-                      . "$securebootArg $keyTransitionArg";
+                      . "--sb-signing-config-file $sb_signing_config_file "
+                      . "$securebootArg $keyTransitionArg $signModeArg";
 
         # Print context not visible in the actual command
         if($debug)
