@@ -310,4 +310,13 @@ Layout Description
         <ecc/>
         <volatile/>
     </section>
+    <section>
+        <description>SecureBoot Key Transition Partition (12K)</description>
+        <eyeCatch>SBKT</eyeCatch>
+        <physicalOffset>0x2BA0000</physicalOffset>
+        <physicalRegionSize>0x4000</physicalRegionSize>
+        <side>A</side>
+        <sha512Version/>
+        <ecc/>
+    </section>
 </pnor>
