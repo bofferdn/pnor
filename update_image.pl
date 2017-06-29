@@ -206,8 +206,8 @@ sub processConvergedSections {
     $sections{HBI}{out}        = "$scratch_dir/hostboot_extended.header.bin.ecc";
     $sections{HBD}{in}         = "$op_target_dir/$targeting_binary_source";
     $sections{HBD}{out}        = "$scratch_dir/$targeting_binary_filename";
-    $sections{SBE}{in}         = "$hb_binary_dir/$sbe_binary_filename";
-    $sections{SBE}{out}        = "$scratch_dir/$sbe_binary_filename";
+#    $sections{SBE}{in}         = "$hb_binary_dir/$sbe_binary_filename";
+#    $sections{SBE}{out}        = "$scratch_dir/$sbe_binary_filename";
 #    $sections{SBEC}{in}       = "$hb_binary_dir/$sbec_binary_filename";
 #    $sections{SBEC}{out}      = "$scratch_dir/$sbec_binary_filename";
     $sections{PAYLOAD}{in}     = "$payload.bin";
@@ -304,7 +304,8 @@ sub processConvergedSections {
                       . "--binDir $scratch_dir "
                       . "--systemBinFiles $system_bin_files "
                       . "--pnorLayout $pnor_layout "
-                      . "$securebootArg $keyTransitionArg $signModeArg";
+                      . "$securebootArg $keyTransitionArg $signModeArg "
+                      . "--hwKeyHashFile $hb_image_dir/imprintHwKeyHash;
 
         # Print context not visible in the actual command
         if($debug)
