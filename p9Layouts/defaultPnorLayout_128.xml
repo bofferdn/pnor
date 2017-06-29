@@ -105,8 +105,8 @@ Layout Description
         <eyeCatch>HBD</eyeCatch>
         <physicalOffset>0xC1000</physicalOffset>
         <physicalRegionSize>0x120000</physicalRegionSize>
-        <sha512Version/>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -153,8 +153,8 @@ Layout Description
         <eyeCatch>SBE</eyeCatch>
         <physicalOffset>0xF61000</physicalOffset>
         <physicalRegionSize>0x82000</physicalRegionSize>
-        <sha512perEC/>
         <side>A</side>
+        <sha512perEC/>
         <ecc/>
     </section>
     <section>
@@ -181,6 +181,7 @@ Layout Description
         <physicalOffset>0x1583000</physicalOffset>
         <physicalRegionSize>0x100000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
     </section>
     <section>
         <description>Bootloader Kernel (15MB)</description>
@@ -188,6 +189,7 @@ Layout Description
         <physicalOffset>0x1683000</physicalOffset>
         <physicalRegionSize>0xF00000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
     </section>
     <section>
         <description>Nvram (576K)</description>
@@ -204,6 +206,7 @@ Layout Description
         <physicalOffset>0x2613000</physicalOffset>
         <physicalRegionSize>0x120000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -221,6 +224,7 @@ Layout Description
         <physicalOffset>0x2736000</physicalOffset>
         <physicalRegionSize>0x24000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -246,6 +250,7 @@ Layout Description
         <physicalOffset>0x2787000</physicalOffset>
         <physicalRegionSize>0x6000</physicalRegionSize>
         <side>sideless</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -296,6 +301,7 @@ Layout Description
         <physicalOffset>0x27FE000</physicalOffset>
         <physicalRegionSize>0x300000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
