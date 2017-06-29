@@ -107,8 +107,8 @@ Layout Description
         <eyeCatch>HBD</eyeCatch>
         <physicalOffset>0xE0000</physicalOffset>
         <physicalRegionSize>0x120000</physicalRegionSize>
-        <sha512Version/>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -146,8 +146,8 @@ Layout Description
         <eyeCatch>HBI</eyeCatch>
         <physicalOffset>0x330000</physicalOffset>
         <physicalRegionSize>0xC60000</physicalRegionSize>
-        <sha512Version/>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -155,8 +155,9 @@ Layout Description
         <eyeCatch>SBE</eyeCatch>
         <physicalOffset>0xF90000</physicalOffset>
         <physicalRegionSize>0x82000</physicalRegionSize>
-        <sha512perEC/>
         <side>A</side>
+        <sha512Version/>
+        <sha512perEC/>
         <ecc/>
     </section>
     <section>
@@ -173,8 +174,8 @@ Layout Description
         <eyeCatch>HBRT</eyeCatch>
         <physicalOffset>0x1140000</physicalOffset>
         <physicalRegionSize>0x480000</physicalRegionSize>
-        <sha512Version/>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -183,6 +184,7 @@ Layout Description
         <physicalOffset>0x15C0000</physicalOffset>
         <physicalRegionSize>0x100000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
     </section>
     <section>
         <description>Bootloader Kernel (15MB)</description>
@@ -190,6 +192,7 @@ Layout Description
         <physicalOffset>0x16C0000</physicalOffset>
         <physicalRegionSize>0xF00000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
     </section>
     <section>
         <description>Nvram (576K)</description>
@@ -206,6 +209,7 @@ Layout Description
         <physicalOffset>0x2650000</physicalOffset>
         <physicalRegionSize>0x120000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -223,6 +227,7 @@ Layout Description
         <physicalOffset>0x2780000</physicalOffset>
         <physicalRegionSize>0x24000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -246,8 +251,9 @@ Layout Description
         <description>Hostboot Bootloader (22.5K)</description>
         <eyeCatch>HBBL</eyeCatch>
         <physicalOffset>0x27F0000</physicalOffset>
-        <physicalRegionSize>0x6000</physicalRegionSize>
+        <physicalRegionSize>0x7000</physicalRegionSize>
         <side>sideless</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
@@ -298,6 +304,7 @@ Layout Description
         <physicalOffset>0x2890000</physicalOffset>
         <physicalRegionSize>0x300000</physicalRegionSize>
         <side>A</side>
+        <sha512Version/>
         <ecc/>
     </section>
     <section>
