@@ -188,13 +188,15 @@ else {
     run_command("cp $hb_binary_dir/$sbe_binary_filename $scratch_dir/");
 }
 
-my $stop_basename = $wink_binary_filename;
-$stop_basename =~ s/.hdr.bin.ecc//;
-$stop_basename = "$hb_binary_dir/$stop_basename.bin";
-
 sub processConvergedSections {
 
     use constant EMPTY => "EMPTY";
+
+    my $stop_basename = $wink_binary_filename;
+    $stop_basename =~ s/.hdr.bin.ecc//;
+
+    my $sbePreEcc = "$scratch_dir/$sbe_binary_filename";
+    $sbePreEcc =~ s/.ecc//;
 
     # Source and destination file for each supported section
     my %sections=();
@@ -206,14 +208,14 @@ sub processConvergedSections {
     $sections{HBI}{out}        = "$scratch_dir/hostboot_extended.header.bin.ecc";
     $sections{HBD}{in}         = "$op_target_dir/$targeting_binary_source";
     $sections{HBD}{out}        = "$scratch_dir/$targeting_binary_filename";
-#    $sections{SBE}{in}         = "$hb_binary_dir/$sbe_binary_filename";
-#    $sections{SBE}{out}        = "$scratch_dir/$sbe_binary_filename";
+    $sections{SBE}{in}         = "$sbePreEcc";
+    $sections{SBE}{out}        = "$scratch_dir/$sbe_binary_filename";
 #    $sections{SBEC}{in}       = "$hb_binary_dir/$sbec_binary_filename";
 #    $sections{SBEC}{out}      = "$scratch_dir/$sbec_binary_filename";
     $sections{PAYLOAD}{in}     = "$payload.bin";
     $sections{PAYLOAD}{out}    = "$scratch_dir/$payload_filename";
     $sections{SBKT}{out}       = "$scratch_dir/SBKT.bin";
-    $sections{HCODE}{in}       = "$stop_basename";
+    $sections{HCODE}{in}       = "$hb_binary_dir/${stop_basename}.bin";
     $sections{HCODE}{out}      = "$scratch_dir/${stop_basename}.hdr.bin.ecc";
     $sections{HBRT}{in}        = "$hb_image_dir/img/hostboot_runtime.bin";
     $sections{HBRT}{out}       = "$scratch_dir/hostboot_runtime.header.bin.ecc";
