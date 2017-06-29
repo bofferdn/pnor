@@ -305,7 +305,7 @@ sub processConvergedSections {
                       . "--systemBinFiles $system_bin_files "
                       . "--pnorLayout $pnor_layout "
                       . "$securebootArg $keyTransitionArg $signModeArg "
-                      . "--hwKeyHashFile $hb_image_dir/imprintHwKeyHash;
+                      . "--hwKeyHashFile $hb_image_dir/imprintHwKeyHash";
 
         # Print context not visible in the actual command
         if($debug)
