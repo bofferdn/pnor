@@ -169,7 +169,7 @@ if ($release eq "p9") {
     run_command("dd if=$hb_image_dir/img/hostboot_bootloader.bin of=$scratch_dir/hbbl.bin ibs=8 skip=1536 conv=sync");
 
     # Append Secure Boot cryptographic algorithms code size to bootloader binary
-    run_command("du -b $hb_image_dir/img/hostboot_securerom.bin | cut -f1 | xargs printf "%016x" | sed 's/.\{2\}/\\\\x&/g' | xargs echo -n -e >> $scratch_dir/hbbl.bin");
+    run_command("du -b $hb_image_dir/img/hostboot_securerom.bin | cut -f1 | xargs printf \"%016x\" | sed 's/.\\{2\\}/\\\\\\\\x&/g' | xargs echo -n -e >> $scratch_dir/hbbl.bin");
 
     # Append Secure Boot cryptographic algorithms code to bootloader binary
     # Result:
