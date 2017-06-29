@@ -27,9 +27,10 @@ my $payload_filename = "";
 my $bootkernel_filename = "";
 my $binary_dir = "";
 my $secureboot = 0;
-my $key_transition = 0;
+my $key_transition = "";
 my $pnor_layout = "";
 my $debug = 0;
+my $sign_mode = "";
 
 while (@ARGV > 0){
     $_ = $ARGV[0];
@@ -122,10 +123,15 @@ while (@ARGV > 0){
         $secureboot = 1;
     }
     elsif (/^-key_transition/i){
-        $key_transition = 1;
+        $key_transition = $ARGV[1] or die "Bad command line arg given: expecting string imprint or production.\n";
+        shift;
     }
     elsif (/^-pnor_layout/i){
         $pnor_layout = $ARGV[1] or die "Bad command line arg given: expecting a filepath to PNOR layout file.\n";
+        shift;
+    }
+    elsif (/^-sign_mode/i){
+        $sign_mode = $ARGV[1] or die "Bad command line arg given: expecting string development or production.\n";
         shift;
     }
     elsif (/^-wof_binary_filename/i){
@@ -226,7 +232,7 @@ sub processConvergedSections {
     {
         print "ERROR: WOFDATA partition is not found, including blank binary instead\n";
     }
-    sections{WOFDATA}{out}     = "$scratch_dir/wofdata.bin.ecc";
+    $sections{WOFDATA}{out}     = "$scratch_dir/wofdata.bin.ecc";
 
     # Build up the system bin files specification
     my $system_bin_files;
@@ -288,7 +294,9 @@ sub processConvergedSections {
         # Determine whether to securely sign the images
         my $securebootArg = $secureboot ? "--secureboot" : "";
         # Determine whether a key transition should take place
-        my $keyTransitionArg = $key_transition ? "--key-transition" : "";
+        my $keyTransitionArg = $key_transition ne "" ? "--key-transition $key_transition" : "";
+        # Determine which type of signing to use
+        my $signModeArg = $sign_mode ne "" ? "--sign-mode $sign_mode" : "";
 
         # Process each image
         my $cmd =   "cd $scratch_dir && "
@@ -296,7 +304,7 @@ sub processConvergedSections {
                       . "--binDir $scratch_dir "
                       . "--systemBinFiles $system_bin_files "
                       . "--pnorLayout $pnor_layout "
-                      . "$securebootArg $keyTransitionArg";
+                      . "$securebootArg $keyTransitionArg $signModeArg";
 
         # Print context not visible in the actual command
         if($debug)
