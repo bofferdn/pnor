@@ -426,11 +426,15 @@ run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $scratch_dir/a
 run_command("dd if=/dev/zero bs=28K count=1 | tr \"\\000\" \"\\377\" > $scratch_dir/hostboot.temp.bin");
 run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $scratch_dir/attr_perm.bin.ecc --p8");
 
-#Create blank binary file for OCC Partition
-run_command("dd if=$occ_binary_filename of=$scratch_dir/hostboot.temp.bin ibs=1M conv=sync");
-run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $occ_binary_filename.ecc --p8");
+#Encode ECC into OCC partition
+if ($release eq "p8") {
+    run_command("dd if=$occ_binary_filename of=$scratch_dir/hostboot.temp.bin ibs=1M conv=sync");
+    run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $occ_binary_filename.ecc --p8");
+} else {
 
-#Encode Ecc into CAPP Partition
+}
+
+#Encode ECC into CAPP partition
 if ($release eq "p8") {
     run_command("dd if=$capp_binary_filename bs=144K count=1 > $scratch_dir/hostboot.temp.bin");
     run_command("ecc --inject $scratch_dir/hostboot.temp.bin --output $scratch_dir/cappucode.bin.ecc --p8");
