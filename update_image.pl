@@ -282,14 +282,10 @@ sub processConvergedSections {
 
     if(length($system_bin_files))
     {
-        # Direct the tooling to use the open signing tools, if secureboot
-        # enabled
-        if($secureboot)
-        {
-            $ENV{'DEV_KEY_DIR'}="$ENV{'HOST_DIR'}/etc/keys/";
-            $ENV{'SIGNING_DIR'} = "$ENV{'HOST_DIR'}/usr/bin/";
-            $ENV{'SIGNING_TOOL_EDITION'} = "community";
-        }
+        # Point to the location of the signing tools
+        $ENV{'DEV_KEY_DIR'}="$ENV{'HOST_DIR'}/etc/keys/";
+        $ENV{'SIGNING_DIR'} = "$ENV{'HOST_DIR'}/usr/bin/";
+        $ENV{'SIGNING_TOOL_EDITION'} = "community";
 
         # Determine whether to securely sign the images
         my $securebootArg = $secureboot ? "--secureboot" : "";
