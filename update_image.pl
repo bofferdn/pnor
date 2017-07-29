@@ -119,9 +119,6 @@ while (@ARGV > 0){
         $bootkernel_filename = $ARGV[1] or die "Bad command line arg given: expecting a filepath to boot kernel binary file.\n";
         shift;
     }
-    elsif (/^-secureboot/i){
-        $secureboot = 1;
-    }
     elsif (/^-key_transition/i){
         $key_transition = $ARGV[1] or die "Bad command line arg given: expecting string imprint or production.\n";
         shift;
