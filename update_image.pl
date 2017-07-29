@@ -164,8 +164,7 @@ if($release eq "p9")
             last;
         }
     }
-    close HB_CONFIG_FILE;
-    die "Error closing $hbConfigFile $!\n" if $!;
+    close HB_CONFIG_FILE or die "Error closing $hbConfigFile: $!\n";
 }
 
 # Compress the skiboot lid image with lzma
