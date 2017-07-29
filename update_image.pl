@@ -147,6 +147,26 @@ while (@ARGV > 0){
     shift;
 }
 
+# If OpenPOWER hostboot is compiled with secureboot, then -always- build with secure
+# signatures (and hash page tables for applicable partitions), otherwise use "dummy"
+# secure headers which lack signatures, and don't do any page table processing
+if($release eq "p9")
+{
+    my $hbConfigFile = $hb_image_dir/config.h";
+    open (HB_CONFIG_FILE, "<", "$hbConfigFile")
+        or die "Error opening $hbConfigFile: $!\n";
+    while(<HB_CONFIG_FILE>) 
+    {
+        if($_ =~ m/^#define +CONFIG_SECUREBOOT +1$/)
+        {
+            $secureboot = 1;
+            last;
+        }
+    }
+    close HB_CONFIG_FILE;
+    die "Error closing $hbConfigFile $!\n" if $!;
+}
+
 # Compress the skiboot lid image with lzma
 if ($payload ne "")
 {
@@ -289,6 +309,7 @@ sub processConvergedSections {
 
         # Determine whether to securely sign the images
         my $securebootArg = $secureboot ? "--secureboot" : "";
+
         # Determine whether a key transition should take place
         my $keyTransitionArg = $key_transition ne "" ? "--key-transition $key_transition" : "";
         # Determine which type of signing to use
